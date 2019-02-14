@@ -13,7 +13,7 @@ var flash = require("connect-flash");
 app.use(flash());
 
 var mongoose=require("mongoose");
-mongoose.connect("mongodb+srv://sagar10k:sagar10k7274410@cluster0-6k3sh.mongodb.net/yelp_camp?retryWrites=true");
+mongoose.connect("mongodb+srv://sagar10k:sagar10@7274410@cluster0-6k3sh.mongodb.net/yelp_camp?retryWrites=true");
 
 var User= require("./models/user");
 app.use(require("express-session")({
