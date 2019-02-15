@@ -13,9 +13,8 @@ var flash = require("connect-flash");
 app.use(flash());
 
 var mongoose=require("mongoose");
-mongoose.connect(process.env.DATABASEURL);
-// mongoose.connect("mongodb://localhost/yelp_camp_v13");
-// mongoose.connect("mongodb+srv://sagardb:sagar7274410@cluster0-l6ed4.mongodb.net/test?retryWrites=true");
+var url= process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v13";
+mongoose.connect(url);
 
 var User= require("./models/user");
 app.use(require("express-session")({
