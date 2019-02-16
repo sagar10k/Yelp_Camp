@@ -14,7 +14,7 @@ router.get("/",function(req,res){
 
 //register route
 router.get("/register", function(req, res){
-    res.render("register");
+    res.render("register", { page: 'register' });
 });
 
 //register Logic
@@ -33,7 +33,7 @@ router.post("/register", function(req, res){
 
 //Login route
 router.get("/login", function(req, res){
-    res.render("login");
+    res.render("login", { page: 'login' });
 });
 
 //Login Logic
