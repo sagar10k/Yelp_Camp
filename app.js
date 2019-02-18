@@ -12,6 +12,8 @@ app.use(methodOverride("_method"));
 var flash = require("connect-flash");
 app.use(flash());
 
+app.locals.moment = require('moment');
+
 var mongoose=require("mongoose");
 var url= process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v13";
 mongoose.connect(url);

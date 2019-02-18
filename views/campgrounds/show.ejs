@@ -18,7 +18,7 @@
                     <h4><a href="#"><%=campground.name%></a></h4>
                     <p><%=campground.description%></p>
                     <p>
-                        Post by: <em><%= campground.author.username%></em>
+                        Post by: <em><%= campground.author.username%>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
@@ -33,24 +33,25 @@
                     <a href="/campgrounds/<%=campground._id%>/comments/new" class="btn btn-primary">Add Comment</a>
                     <a href="/campgrounds" class="btn btn-primary">Back</a>
                 </div>
-                <hr>
+                <hr style="border-color: #ddd;">
                 <% campground.comments.forEach(function(comment){%>
                     <div class="row">
                         <div class="col-md-12">
-                            <strong><%= comment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
-                            <p><%=comment.text%></p>
-                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-                                <a class="btn btn-xs btn-warning" 
-                                   href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">
-                                   Edit
-                                </a>
-                                <form class="form-delete"    
-                                action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
-                                method="POST">
-                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                </form>
-                            <% } %>
+                            <p>
+                                <strong><%= comment.author.username %></strong>
+                                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+                                <p><%=comment.text%></p>
+                                    <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                        <a class="btn btn-xs btn-warning" 
+                                           href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit
+                                        </a>
+                                        <form class="form-delete"    
+                                        action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                        method="POST">
+                                            <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                        </form>
+                                    <% } %>
+                            </p>
                         </div>
                     </div>
                 <% }); %>
