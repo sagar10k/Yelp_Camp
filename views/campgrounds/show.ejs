@@ -8,7 +8,6 @@
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
             </div>
-            //map code
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
@@ -18,7 +17,7 @@
                     <h4><a href="#"><%=campground.name%></a></h4>
                     <p><%=campground.description%></p>
                     <p>
-                        Post by: <em><%= campground.author.username%>, <%= moment(campground.createdAt).fromNow() %></em>
+                        Post by: <em><a href="/user/<%= campground.author.id %>"><%= campground.author.username%></a>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
