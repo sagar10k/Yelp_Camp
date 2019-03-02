@@ -13,3 +13,12 @@
 .form-delete{
     display: inline;
 }
+
+body{
+    padding-top: 55px;
+}
+
+#navSearch{
+    padding-top: 6px;
+    padding-right: 3px;
+}

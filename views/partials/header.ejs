@@ -5,10 +5,11 @@
 	<title>Yelpcamp</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body>
 	
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-fixed-top navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -25,11 +26,19 @@
                 <li class="<%= typeof page !== 'undefined' && page === 'campgrounds' ? 'active' : '' %>"><a href="/campgrounds">Home</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                      <li>
+                        <form id="navSearch" action="/campgrounds" method="GET" class="form-inline">
+                            <div class="form-group">
+                                <input type="text" name="search" placeholder="Campground search..." class="form-control">
+                                <input type="submit" value="Search" class="btn btn-default">
+                            </div>
+                        </form>
+                      </li>
                   <% if(!currentUser){ %>
                       <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a></li>
                       <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register">Sign Up</a></li>
                   <% } else { %>
-                      <li><a href="#">Signed In As <%= currentUser.username %></a></li>
+                      <li><a href="/user/<%= currentUser.id %>">Signed In As <%= currentUser.username %></a></li>
                       <li><a href="/logout">Logout</a></li>
                   <% } %>
               </ul>
