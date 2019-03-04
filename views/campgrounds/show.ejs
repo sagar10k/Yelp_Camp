@@ -8,6 +8,8 @@
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
             </div>
+                <h5><em><%=campground.name%> location:</em></h5>
+                <div id='map'></div>               
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
@@ -57,5 +59,29 @@
             </div>
         </div>
     </div>
+
+<!--Script of loading the map-->
+    <script>
+        var campground = <%- JSON.stringify(campground) %>;
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic2FnYXIxMGsiLCJhIjoiY2pzdGV3Y21hMHBrODN5cDRmZXlmbTQ1eSJ9.yY-YFUyihOxG7WXHSN9GMw';
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+            center: campground.coordinates, // starting position [lng, lat]
+            zoom: 7 // starting zoom
+        });
+        
+        // create a HTML element for campground/location feature
+        var el = document.createElement('div');
+        el.className = 'marker';
+  
+        // make a marker for campground/location feature and add to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(campground.coordinates)
+          .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML('<h3>' + campground.name + '</h3><p>' + campground.location + '</p>'))
+          .addTo(map);
+          
+    </script>
 
 <% include ../partials/footer %>
