@@ -2,10 +2,7 @@ var express= require("express");
 var app= express();
 
 require('dotenv').config();
-<<<<<<< HEAD
-=======
 
->>>>>>> mapbox
 app.set("view engine","ejs");
 
 var bodyParser= require("body-parser");
