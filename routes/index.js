@@ -96,7 +96,6 @@ router.post("/forgot", function(req, res, next){
             });
         },
         function(token, done){
-            console.log(req.body.email);
             User.findOne({email: req.body.email }, function(err, foundUser){
                 if(!foundUser || err){
                     req.flash("error", "no user account with given email address exists");

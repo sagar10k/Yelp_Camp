@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var campground = require("../models/campground");
 var middlewareObj = require("../middleware");
+var mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+var geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
 //multer configuration
 var multer= require("multer");
@@ -27,6 +29,8 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+// console.log("cloudinary api_key: ",process.env.CLOUDINARY_API_KEY);
+// console.log("cloudinary api_key: ",process.env.CLOUDINARY_API_SECRET);
 
 //INDEX : Display all campground from DB
 router.get("/",function(req,res){
@@ -60,7 +64,7 @@ router.get("/",function(req,res){
 
 //CREATE : Add new campground to DB
 router.post("/", middlewareObj.isLoggedIn, upload.single('image'), function(req, res) {
-    cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+    cloudinary.v2.uploader.upload(req.file.path, async function(err, result) {
       if(err) {
         req.flash('error', err.message);
         return res.redirect('back');
@@ -74,6 +78,15 @@ router.post("/", middlewareObj.isLoggedIn, upload.single('image'), function(req,
         id: req.user._id,
         username: req.user.username
       };
+      
+    //   MAPBOX CODE goes here...
+      let response = await geocodingClient
+        .forwardGeocode({
+            query: req.body.campground.location,
+            limit:1
+        })
+        .send();
+      req.body.campground.coordinates = response.body.features[0].geometry.coordinates;
       campground.create(req.body.campground, function(err, campground) {
         if (err) {
           req.flash('error', err.message);
@@ -131,6 +144,18 @@ router.put("/:id", middlewareObj.isOwnedCampground, upload.single('image'), func
                     return res.redirect("back");
                 }
             }
+            // Check if Location is Updated?
+            if(req.body.camp.location !== foundCampground.location){
+                let response = await geocodingClient
+                    .forwardGeocode({
+                        query: req.body.camp.location,
+                        limit:1
+                    })
+                    .send();
+                foundCampground.coordinates = response.body.features[0].geometry.coordinates;
+                foundCampground.location = req.body.camp.location;
+            }
+            
             foundCampground.name = req.body.camp.name;
             foundCampground.price = req.body.camp.price;
             foundCampground.description = req.body.camp.description;

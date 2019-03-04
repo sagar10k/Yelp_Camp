@@ -1,6 +1,8 @@
 var express= require("express");
 var app= express();
 
+require('dotenv').config();
+
 app.set("view engine","ejs");
 
 var bodyParser= require("body-parser");
@@ -15,7 +17,7 @@ app.use(flash());
 app.locals.moment = require('moment');
 
 var mongoose=require("mongoose");
-var url= process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v13";
+var url= process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v13MAP";
 mongoose.connect(url);
 
 var User= require("./models/user");
