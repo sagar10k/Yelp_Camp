@@ -44,7 +44,8 @@ app.use(function(req, res, next){
    next();
 });
 
-var seedDB= require("./seeds");
+// var seedDB= require("./seeds");
+
 app.use(express.static(__dirname + "/public/"));
 
 // seedDB();
